@@ -190,18 +190,18 @@ eye.col.f
 ## Levels: blue brown green
 ```
 
-Rでは要因の異なる水準（全ての独自値：blue, brown, green）を特定します。個々の水準は整数値として内的に格納され、各々の数字と要素の水準が対応しています。
+Rでは要因factorの異なる水準level（それぞれ別の値：blue, brown, green）を特定します。個々の水準は整数値として内的に格納され、各々の数字と要素の水準が対応しています。
 
 ```{r, eval=T}
-levels(eye.col.f) # The levels (distinct values) of the factor (categorical var)
+levels(eye.col.f) # 要因(カテゴリカル変数)における各水準(別々の値)
 ```
 
 ```{r, eval=T}
-as.numeric(eye.col.f) # 数値としては 1がblue, 2がbrown, 3がgreen
+as.numeric(eye.col.f) # 数値としては 1がblue, 2がbrown, 3がgreenに対応
 ```
 
 ```{r, eval=T}
-as.numeric(eye.col.v) # 文字ベクトルを数値に強制することはできません
+as.numeric(eye.col.v) # 文字ベクトルを強制的に数値にすることはできない
 
 ```
 
