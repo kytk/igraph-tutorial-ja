@@ -19,7 +19,7 @@ knitr::opts_chunk$set(echo = TRUE)
 install.packages("igraph")
 ```
 
-##1. Rにおける基本的な覚書
+## 1. Rにおける基本的な覚書
 
 ネットワークを扱う前に、Rの基本を簡単に紹介／おさらいしておきましょう。  
 
