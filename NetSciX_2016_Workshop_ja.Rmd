@@ -466,8 +466,8 @@ detach(package:igraph) # パッケージの切り離し
 ## 2. igraphにおけるネットワーク
 
 ```{r, eval=F}
-rm(list = ls()) # Remove all the objects we created so far.
-library(igraph) # Load the igraph package
+rm(list = ls()) # これまでに作成したオブジェクト(変数)を削除
+library(igraph) # igraph パッケージの読み込み
 ```
 
 ### 2.1 ネットワークをつくる
@@ -477,7 +477,7 @@ library(igraph) # Load the igraph package
 ```{r, eval=T}
 library(igraph)
 g1 <- graph( edges=c(1,2, 2,3, 3,1), n=3, directed=F)
-plot(g1) # 単純なネットワークのプロットです。プロットに関しては後述します
+plot(g1) # 単純なネットワークのプロット。プロットに関しては後述
 ```
 
 ```{r, eval=T}
@@ -489,7 +489,7 @@ g1
 ```
 
 ```{r, eval=T}
-# 今度は10個の頂点で、方向性は初期設定のままです：
+# 今度は10個の頂点で、方向性は初期設定のまま：
 g2 <- graph( edges=c(1,2, 2,3, 3,1), n=10)
 plot(g2)
 ```
@@ -499,8 +499,8 @@ g2
 ```
 
 ```{r, eval=T}
-g3 <- graph( c("John", "Jim", "Jim", "Jill", "Jill", "John")) # 名前の付いた頂点です。
-# 辺のリストに頂点の名前がある場合は、ノードごとの数字は不要になります。
+g3 <- graph( c("John", "Jim", "Jim", "Jill", "Jill", "John")) # 名前の付いた頂点
+# 辺のリストに頂点の名前がある場合は、頂点数は明示する必要がない
 plot(g3)
 ```
 
@@ -511,17 +511,17 @@ g3
 ```{r, eval=T}
 g4 <- graph( c("John", "Jim", "Jim", "Jack", "Jim", "Jack", "John", "John"),
 isolates=c("Jesse", "Janis", "Jennifer", "Justin") )
-# 名前を付けたグラフにおいては、名前のリストを作ることで特定のisolatesを同定できます。
+# 頂点に名前を付けたグラフでは、名前のリストを作ることで特定の頂点を孤立させることができる
 
 plot(g4, edge.arrow.size=.5, vertex.color="gold", vertex.size=15,
 vertex.frame.color="gray", vertex.label.color="black",
 vertex.label.cex=0.8, vertex.label.dist=2, edge.curved=0.2)
 ```
 
-小さなグラフなら、以下のような記述で作成することもできます。すなわち、-のような方向性のないつながりや、+-もしくは-+のような左右の方向性をもったつながり、++のような対称的なつながり、頂点のセットを表わす“:” です。
+小さなグラフなら、以下のような記述で作成することもできます。**-** は方向性のないつながり、**+-** (左向き)もしくは **-+** (右向き)は方向性のあるつながり、 **++** は両方向性のつながり、***:*** は頂点のセットを表します。
 
 ```{r, eval=T}
-plot(graph_from_literal(a---b, b---c)) # ダッシュの数はいくつでも構いません。
+plot(graph_from_literal(a---b, b---c)) # ハイフンの数はいくつでも構わない
 ```
 
 ```{r, eval=T}
