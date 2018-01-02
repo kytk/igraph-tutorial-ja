@@ -795,10 +795,10 @@ dim(nodes2)
 
 ## 4. ネットワークをigraphオブジェクトに置換する
 
-それではまず、生のデータをigraphネットワークオブジェクトに変換しましょう。ここではdと頂点の2つのデータフレームから構成されるigraphのgraph.data.frame機能を用います。
+それではまず、元データを [igraph](http://igraph.org) ネットワークオブジェクトに変換しましょう。ここではigraphの `graph.data.frame` 機能を使います。これは、dと頂点の2つのデータフレームをとります。
 
--dはネットワークのエッジをあらわします。最初の2つの列にソースのIDと各エッジの対象ノードがきます。つづいてエッジの属性(重み、方、ラベルなど)が入ります。
--頂点の方は、最初の列にノードのIDがきます。以降の列に入るものはノードの属性とみなされます。
+- **d** はネットワークのエッジをあらわします。最初の2つの列にソースのIDと各エッジの対象ノードがきます。つづいてエッジの属性 (重みづけ、方、ラベルなど) が入ります。
+- **頂点**の方は、最初の列にノードのIDがきます。以降の列に入るものはノードの属性とみなされます。
 
 load(".RData")
 
@@ -818,13 +818,13 @@ net
 ノードやエッジとその属性に簡単にアクセスするには：
 
 ```{r, eval=F}
-E(net) # "net"オブエクトのエッジ
-V(net) # "net"オブジェクトの頂点
-E(net)$type # エッジのうち属性が"type"のもの
-V(net)$media # 頂点のうち属性が"media"のもの
+E(net) # "net" オブエクトのエッジ
+V(net) # "net" オブジェクトの頂点
+E(net)$type # エッジの属性が "type" のもの
+V(net)$media # 頂点の属性が "media" のもの
 ```
 
-これでigraphネットワークオブジェクトができましたので、プロットの第一歩を踏んでみましょう。
+これでigraphネットワークオブジェクトができました。早速プロットしてみましょう。
 
 ```{r, eval=T}
 plot(net, edge.arrow.size=.4,vertex.label=NA)
@@ -836,7 +836,9 @@ plot(net, edge.arrow.size=.4,vertex.label=NA)
 net <- simplify(net, remove.multiple = F, remove.loops = T)
 ```
 
-simplifyを用いて重複したエッジをその重みをまとめてコンバインできることにお気づきでしょう。simplify(net, edge,.attr.comb=list(weight="sum","ignore"))というようなコマンドを使って。問題はこれだと重複したエッジの型(私たちのデータでは"hyperlinks"と"mentions")も混ぜこぜになってしまうという点です。もし必要なら、エッジリストや行列をigraphネットワークから抽出することもできます。
+`simplify` を用いて重複したエッジをその重みづけをまとめてコンバインできることにお気づきでしょう。`simplify(net, edge,.attr.comb=list(weight="sum","ignore"))` というようなコマンドを使って。問題はこれだと重複したエッジの型 (私たちのデータでは"hyperlinks"と"mentions"が相当します) もまとめられてしまうという点です。
+
+もし必要なら、エッジリストや行列をigraphネットワークから抽出することもできます。
 
 ```{r, eval=F}
 as_edgelist(net, names=T)
