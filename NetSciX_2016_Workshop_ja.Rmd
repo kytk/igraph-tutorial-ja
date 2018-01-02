@@ -1,15 +1,11 @@
 ---
 title: "Rとigraphを使ったネットワーク解析と可視化"
-author: "Katherine Ognyanova 著; 田村 昌士 根本 清貴 訳"
+author: "Katherine Ognyanova 著; 田村 昌士, 根本 清貴 訳"
 date: "10 January 2018"
 output:
   html_document: default
   pdf_document: default
 ---
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
 
 このワークショップで用いるデータは、[ここ](http://www.kateto.net/wordpress/wp-content/uploads/2016/01/netscix2016.zip)からダウンロードするか、http://kateto.net/netscix2016 から入手してください。
 
@@ -800,12 +796,13 @@ dim(nodes2)
 - **d** はネットワークのエッジをあらわします。最初の2つの列にソースのIDと各エッジの対象ノードがきます。つづいてエッジの属性 (重みづけ、方、ラベルなど) が入ります。
 - **頂点**の方は、最初の列にノードのIDがきます。以降の列に入るものはノードの属性とみなされます。
 
-load(".RData")
 
 ### 4.1 データセット1
 
 ```{r, eval=T}
 library(igraph)
+
+load(".RData")
 
 net <- graph.data.frame(d=links, vertices=nodes, directed=T)
 class(net)
@@ -926,6 +923,8 @@ igaphのプロットに関するパラメータは以下のとおり：
 **vertex.label.dist**   ラベルと頂点の距離
 
 **vertex.label.degree** 頂点に対するラベルの位置：0だと右側、“pi”だと左側、“pi/2”だと下、“-pi/2”だと上
+<br />
+<br />
 
 **エッジ**
 
@@ -950,6 +949,8 @@ igaphのプロットに関するパラメータは以下のとおり：
 **edge.curved**         エッジの曲がり具合を0-1で表わす(FALSEだと0, TRUEだと0.5に設定される)
 
 **arrow.mode**          エッジに矢印があるかどうかを特定するベクトル(0だと矢印なし、1だと後ろ向き、2だと前向き、3だと両方向) 
+<br />
+<br />
 
 **その他**
 
