@@ -852,9 +852,9 @@ as_data_frame(net, what="edges")
 as_data_frame(net, what="vertices")
 ```
 
-### 4.2　データセット２
+### 4.2　データセット2
 
-上で見てきたように、ここでのネットワークのエッジは行列の形式になっています。それらをgraph_from_incidence_matrix()を用いて、あるグラフオブジェクトに読み込むことができます。igraphにおいて、bipartiteネットワークにはtypeと呼ばれるノードの属性があり、あるモードでは頂点にFALSE(もしくは0)を返し、別のモードではTRUE(もしくは1)を返します。
+上で見てきたように、ここでのネットワークのエッジは行列の形式になっています。それらを `graph_from_incidence_matrix()` を用いて、グラフオブジェクトに読み込むことができます。igraphにおいて、2部ネットワークには `type` と呼ばれるノードの属性があり、一方のモードの頂点には FALSE (もしくは0) を返し、他方には TRUE (もしくは1) を返します。
 
 ```{r, eval=T}
 head(nodes2)
@@ -869,14 +869,13 @@ net2 <- graph_from_incidence_matrix(links2)
 table(V(net2)$type)
 ```
 
-1モードネットワークをあるigraphオブジェクトに変換する時には、代わりにgraph_from_adjacency_matrix()を用います。2モードネットワーク用にbipartiteな放射を生成することも簡単にできます：(co-memberships are easy to calculate by multiplying the network matrix by its transposed matrix, or using igraph’s
-bipartite.projection() function)。
+2部ネットワークではなく、1モードネットワークをigraphオブジェクトに変換する時には、代わりに `graph_from_adjacency_matrix()` を用います。2部(2モード)ネットワークのための投射先を生成することも簡単にできます: (co-memberships はネットワーク行列を転置行列と掛け合わせるか、igraphの `bipartite.projection()` 関数を使うことで簡単に計算できます。)
 
 ```{r, eval=F}
 net2.bp <- bipartite.projection(net2)
 ```
 
-放射を手動で計算することもできます。
+投射先を手動で計算することもできます。
 
 ```{r, eval=T}
    as_incidence_matrix(net2)  %*% t(as_incidence_matrix(net2))
@@ -887,6 +886,12 @@ net2.bp <- bipartite.projection(net2)
 plot(net2.bp$proj1, vertex.label.color="black", vertex.label.dist=1,
 vertex.size=7, vertex.label=nodes2$media[ is.na(nodes2$media.type)])
 ```
+
+```{r, eval=T}
+plot(net2.bp$proj2, vertex.label.color="black", vertex.label.dist=1,
+vertex.size=7, vertex.label=nodes2$media[ is.na(nodes2$media.type)])
+```
+
 
 ## 5. igraphでネットワークをプロットする
 
