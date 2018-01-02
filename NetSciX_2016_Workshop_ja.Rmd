@@ -904,93 +904,120 @@ igaphのプロットに関するパラメータは以下のとおり：
 ---
 
 **ノード**
+
 **vertex.color**        ノードの色
+
 **vertex.frame.color**  ノードの縁の色
+
 **vertex.shape**         “none”, “circle”, “square”, “csquare”, “rectangle”, “crectangle”, “vrectangle”, “pie”, “raster”, “sphere”の中から1つ
-**vertex.size**         ノードのサイズ (デフォルトは15)
-**vertex.size2**        ノードの2つ目のサイズ(例えば四角)
-**vertex.label**        ノードにラベルをつけるために用いられる固有ベクトル
-**vertex.label.family** ラベルのフォント名(例えば“Times”, “Helvetica”)
-**vertex.label.font**   Font: 1 プレーン, 2 ボールド, 3, イタリック, 4 ボールドイタリック, 5 シンボル
-**vertex.label.cex**    フォントのサイズ(multiplication factor, device-dependent)
+
+**vertex.size**         ノードの大きさ (デフォルトは15)
+
+**vertex.size2**        ノードの2つ目の大きさ (ノードが長方形の時のもう一方の辺の長さなど)
+
+**vertex.label**        ノードにラベルをつけるために用いられる文字列ベクトル
+
+**vertex.label.family** ラベルのフォント名 (“Times”, “Helvetica” など)
+
+**vertex.label.font**   フォント: 1 プレーン, 2 ボールド, 3, イタリック, 4 ボールドイタリック, 5 シンボル
+
+**vertex.label.cex**    フォントのサイズ (倍率, システムによて異なる)
+
 **vertex.label.dist**   ラベルと頂点の距離
+
 **vertex.label.degree** 頂点に対するラベルの位置：0だと右側、“pi”だと左側、“pi/2”だと下、“-pi/2”だと上
 
-エッジ
-edge.color エッジの色
-edge.width エッジの幅(デフォルトは1)
-edge.arrow.size 矢印のサイズ(デフォルトは1)
-edge.arrow.width 矢印の幅(デフォルトは1)
-edge.lty 線の種類：0 か “blank”, 1か“solid”, 2か“dashed”,
-3か“dotted”, 4か“dotdash”, 5か“longdash”, 6か“twodash”
-edge.label エッジにラベルをつけるために用いられる固有ベクトル
-edge.label.family ラベルのフォント名 (ノードに同じ)
-edge.label.font ノードに同じ
-edge.label.cex エッジのラベルののフォントサイズ
-edge.curved エッジの曲がり具合を0-1で表わす(FALSEだと0, TRUEだと0.5に設定される)
-arrow.mode エッジに矢印があるかどうかを特定するベクトル(0だと矢印なし、1だと後ろ向き、2だと前向き、3だと両方向) 
-その他
-margin プロット周囲にある空スペースのマージンで長さ4のベクトル
-frame もしTRUEなら、プロットは枠付きになる
-main 設定するとプロットにタイトルが付与される
-sub 設定するとプロットにサブタイトルが付与される
+**エッジ**
+
+**edge.color**          エッジの色
+
+**edge.width**          エッジの太さ (デフォルトは1)
+
+**edge.arrow.size**     矢印のサイズ (デフォルトは1)
+
+**edge.arrow.width**    矢印の太さ (デフォルトは1)
+
+**edge.lty**            線の種類：0 か “blank”, 1か“solid”, 2か“dashed”, 3か“dotted”, 4か“dotdash”, 5か“longdash”, 6か“twodash”
+
+**edge.label**          エッジにラベルをつけるために用いられる文字列ベクトル
+
+**edge.label.family**   ラベルのフォント名 (ノードに同じ)
+
+**edge.label.font**     ノードに同じ
+
+**edge.label.cex**      エッジのラベルののフォントサイズ
+
+**edge.curved**         エッジの曲がり具合を0-1で表わす(FALSEだと0, TRUEだと0.5に設定される)
+
+**arrow.mode**          エッジに矢印があるかどうかを特定するベクトル(0だと矢印なし、1だと後ろ向き、2だと前向き、3だと両方向) 
+
+**その他**
+
+**margin**              プロット周囲にある空スペースのマージンで長さ4のベクトル
+
+**frame**               もしTRUEなら、プロットは枠付きになる
+
+**main**                設定するとプロットにタイトルが付く
+
+**sub**                 設定するとプロットにサブタイトルが付く
+
 ---
 
 ノードとエッジを設定するには2通りの方法があります。1つ目は以下のようにplot()機能を用います。
 
 ```{r, eval=T}
-# 弧を描くエッジをプロットし、矢印のサイズを小さくします：
+# 弧を描くエッジをプロットし、矢印のサイズを小さくする:
 plot(net, edge.arrow.size=.4, edge.curved=.1)
 ```
 
 ```{r, eval=T}
-# エッジンの色をグレーに、ノードの色をオレンジに設定します。
-# "media"に格納されているノード名を頂点にラベル付けします。
+# エッジンの色をグレーに、ノードの色をオレンジに設定
+# "media" に格納されているノード名を頂点にラベル付け
 plot(net, edge.arrow.size=.2, edge.curved=0,
      vertex.color="orange", vertex.frame.color="#555555",
      vertex.label=V(net)$media, vertex.label.color="black",
      vertex.label.cex=.7)
 ```
 
-属性を設定するもう一つの方法はigraphオブジェクトに付与する方法です。我々のデータセットのメディアのタイプのネットワークノードに色を付け、視聴者の数に応じて(視聴者が多ければ頬いほどサイズが大きくなる)サイズを決めることにしましょう。エッジの幅もその重みに応じて変えてみましょう。
+属性を設定するもう一つの方法は、igraph オブジェクトに付与する方法です。我々のデータセットのメディアのタイプのネットワークノードに色を付け、視聴者の数に応じて(視聴者が多ければ頬いほどサイズが大きくなる)サイズを決めることにしましょう。エッジの幅もその重みに応じて変えてみましょう。
 
 ```{r, eval=T}
-# メディアのタイプに応じて色を生成します。
+# メディアのタイプに応じて色を生成
 colrs <- c("gray50", "tomato", "gold")
 V(net)$color <- colrs[V(net)$media.type]
 
-# 視聴者の多さによってノードのサイズを設定します。
+# 視聴者の多さによってノードのサイズを設定
 V(net)$size <- V(net)$audience.size*0.7
 
-# ラベルは今のところノードのIDになっています。
-# NAに設定するとラベルが出なくなります：
+# ラベルは今はノードのID
+# NAに設定するとラベルが出なくなる:
 V(net)$label.color <- "black"
 V(net)$label <- NA
 
-# エッジの幅を重みに応じて設定します。
+# エッジの太さを重みに応じて設定
 E(net)$width <- E(net)$weight/6
 
-# 矢印のサイズとエッジの色を変えます：
+# 矢印のサイズとエッジの色を変更
 E(net)$arrow.size <- .2
 E(net)$edge.color <- "gray80"
 
 E(net)$width <- 1+E(net)$weight/12
 ```
 
-プロットの中でexplicitlyに属性を上書きすることもできます。
+プロットする際にオプションで指定することで属性を上書きすることもできます。
 
 ```{r, eval=T}
-plot(net, ege.color="orange", vertex.color="gray50")
+plot(net, edge.color="orange", vertex.color="gray50")
 ```
 
-色の意味を説明するレジェンドをつけておくとわかりやすいです：
+色の意味を説明する凡例をつけておくとわかりやすいです:
 
 ```{r, eval=T}
 plot(net)
 legend(x=-1.5, y=-1.1, c("Newspapar","Television", "Online News"), pch=21, col="#777777", pt.bg=colrs, pt.cex=2, cex=.8, bty="n", ncol=1)
 ```
 
-semanticなネットワークを作りたい時なんかはノードのラベルのみでプロットしたくなることもあります：
+意味ネットワークを作りたい時は、ノードのラベルのみでプロットしたくなるかもしれません:
 
 ```{r, eval=T}
 plot(net, vertex.shape="none", vertex.label=V(net)$media, 
@@ -998,7 +1025,7 @@ plot(net, vertex.shape="none", vertex.label=V(net)$media,
      vertex.label.cex=.7, edge.color="gray85")
 ```
 
-ニュースのソースによってノードの色を変えてみましょう。igraphのends()機能をつかえば、各エッジの出発点のノードを知ることができます。
+ニュースソースによってノードの色を変えてみましょう。igraph の `ends()` 機能をつかえば、各エッジの出発点のノードを知ることができます。
 
 ```{r, eval=T}
 edge.start <- ends(net, es=E(net), names=F)[,1]
