@@ -893,29 +893,29 @@ vertex.size=7, vertex.label=nodes2$media[ is.na(nodes2$media.type)])
 ```
 
 
-## 5. igraphでネットワークをプロットする
+## 5. igraphでのネットワークのプロット
 
-igraphでプロットする際、自分で設定できるかなり豊富なパラメータセットがあります。その中にはvertexで始まるようなノードのオプションや、edgeなどのエッジのオプションもあります。下にいくつかオプションをピックアップしてみましたが、さらに情報が知りたい時には?igraph.plottingをチェックしてみてください。
+igraphでプロットする際、かなり豊富なパラメータセットがあります。その中には `vertex.` で始まるノードのオプションや、`edge.` で始まるエッジのオプションがあります。下にいくつかオプションを抜き出してみましたが、さらに情報が知りたい時には `?igraph.plotting` をチェックしてみてください。
 
 igaphのプロットに関するパラメータは以下のとおり：
 
 ### 5.1　プロットに関するパラメータ
 
 ---
-ノード
-vertex.color ノードの色
-vertex.frame.color ノードの縁の色
-vertex.shape “none”, “circle”, “square”, “csquare”, “rectangle”
-“crectangle”, “vrectangle”, “pie”, “raster”, or “sphere”の中から1つ
-vertex.size ノードのサイズ (デフォルトは15)
-vertex.size2 ノードの2つ目のサイズ(例えば四角)
-vertex.label ノードにラベルをつけるために用いられる固有ベクトル
-vertex.label.family ラベルのフォント名(例えば“Times”, “Helvetica”)
-vertex.label.font Font: 1 プレーン, 2 ボールド, 3, イタリック, 4 ボールドイタリック, 5 シンボル
-vertex.label.cex フォントのサイズ(multiplication factor, device-dependent)
-vertex.label.dist ラベルと頂点の距離
-vertex.label.degree 頂点に対するラベルの位置：0だと右側、“pi”だと左側
-、“pi/2”だと下、“-pi/2”だと上
+
+**ノード**
+**vertex.color**        ノードの色
+**vertex.frame.color**  ノードの縁の色
+**vertex.shape**         “none”, “circle”, “square”, “csquare”, “rectangle”, “crectangle”, “vrectangle”, “pie”, “raster”, “sphere”の中から1つ
+**vertex.size**         ノードのサイズ (デフォルトは15)
+**vertex.size2**        ノードの2つ目のサイズ(例えば四角)
+**vertex.label**        ノードにラベルをつけるために用いられる固有ベクトル
+**vertex.label.family** ラベルのフォント名(例えば“Times”, “Helvetica”)
+**vertex.label.font**   Font: 1 プレーン, 2 ボールド, 3, イタリック, 4 ボールドイタリック, 5 シンボル
+**vertex.label.cex**    フォントのサイズ(multiplication factor, device-dependent)
+**vertex.label.dist**   ラベルと頂点の距離
+**vertex.label.degree** 頂点に対するラベルの位置：0だと右側、“pi”だと左側、“pi/2”だと下、“-pi/2”だと上
+
 エッジ
 edge.color エッジの色
 edge.width エッジの幅(デフォルトは1)
