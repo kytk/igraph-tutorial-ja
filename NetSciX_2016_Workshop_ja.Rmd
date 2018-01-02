@@ -744,7 +744,7 @@ plot(rn %du% tr, vertex.size=10, vertex.label=NA)
 
 ### 3.1 データセット1: エッジリスト
 
-最初に私たちが扱うデータセットは、"Media-Example-NODES.csv"と"Media-Example-EDGES.csv"という２つのファイルから構成されます([ここからダウンロード](http://www.kateto.net/wordpress/wp-content/uploads/2016/01/netscix2016.zip))。
+最初に私たちが扱うデータセットは、"Media-Example-NODES.csv"と"Media-Example-EDGES.csv"という2つのファイルから構成されます([ここからダウンロード](http://www.kateto.net/wordpress/wp-content/uploads/2016/01/netscix2016.zip))。
 
 ```{r, eval=F}
 nodes <- read.csv("Dataset1-Media-Example-NODES.csv", header=T, as.is=T)
@@ -760,7 +760,7 @@ nrow(nodes); length(unique(nodes$id))
 nrow(links); nrow(unique(links[,c("from", "to")]))
 ```
 
-ここで、from-toコンビネーションは同じものが複数あることに注意してください。つまり、このデータにおいては、同一の2つのノードの間に多重のリンクが存在するケースがあるということです。同一の2つのノードにまたがる同じ型 ("from"と"to"、そして"type") のリンクは `aggregate()` を用いて重みづけを合計することでまとめることができます。simplify()は異なる型のリンクもまとめてしまうため、ここでは使いません。
+ここで、from-toコンビネーションは同じものが複数あることに注意してください。つまり、このデータにおいては、同一の2つのノードの間に多重のリンクが存在するケースがあるということです。同一の2つのノードにまたがる同じ型 ("from"と"to"、そして"type") のリンクは `aggregate()` を用いて重みづけを合計することでまとめることができます。`simplify()` は異なる型のリンクもまとめてしまうため、ここでは使いません。
 
 ```{r, eval=F}
 links <- aggregate(links[,3], links[,-3], sum)
