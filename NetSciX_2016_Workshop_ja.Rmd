@@ -1157,7 +1157,7 @@ plot(net, edge.arrow.mode=0, layout=l, main=layout) }
 
 ![Fig5.3](Fig5.3.png)
 
-今のところ私たちのネットワークプロットはそれほど見やすいものではないですよね。ノードのタイプとサイズは見ればわかりますが、構造に関してはそれほどわかりません。というのも、調べようとしているリンクがすごく密だからです。ではどうすればよいかと言いますと、もっとも重要なつながりだけ残して残りを切り捨てることでネットワークを疎らにしてみるという方法です。
+今のところ私たちのネットワークグラフはまだ十分に役立つところまでいっていません。ノードのタイプとサイズに関してはわかりますが、構造に関してはそれほどわかりません。というのも、ネットワークのリンクがすごく密だからです。ひとつのアプローチとしては、もっとも重要なつながりだけ残して残りを切り捨てることでネットワークを疎にしてみるという方法があります。
 
 ```{r, eval=F}
 hist(links$weight)
@@ -1165,7 +1165,7 @@ mean(links$weight)
 sd(links$weight)
 ```
 
-鍵となるエッジを抽出するためのもっと洗練された方法もありますが、この練習においては、ネットワークの中で平均以上の重みをもったエッジだけを残すという方法だけでよいでしょう。igraphにおいては、delete_edges(net, edges)を使えば、エッジを消去できます。
+鍵となるエッジを抽出できる洗練された方法もありますが、この練習においては、ネットワークの中で平均以上の重みをもったエッジだけを残します。igraphにおいては、 `delete_edges(net, edges)` を使えば、エッジを消去できます。
 
 ```{r, eval=T}
 cut.off <- mean(links$weight)
@@ -1173,7 +1173,7 @@ net.sp <- delete_edges(net, E(net)[weight<cut.off])
 plot(net.sp)
 ```
 
-2つのタイプ(ハイパーリンクとメンション)のつながりを別々にプロットする方法もあります。
+他に考慮すべき方法としては、2つの異なるタイプ(ハイパーリンクとメンション)のつながりを別々にプロットすることです。
 
 ```{r, eval=T}
 E(net)$width <- 1.5
@@ -1184,14 +1184,15 @@ vertex.color="gray40", layout=layout.circle)
 ```{r, eval=T}
 net.m <- net - E(net)[E(net)$type=="hyperlink"] #　別のエッジ消去法
 net.h <- net - E(net)[E(net)$type=="mention"]
-# ２つのリンクを別々にプロットします
+
+# ２つのリンクを別々にプロット
 par(mfrow=c(1,2))
 plot(net.h, vertex.color="orange", main="Tie: Hyperlink")
 plot(net.m, vertex.color="lightsteelblue2", main="Tie: Mention")
 ```
 
 ```{r, eval=T}
-# どちらのプロットでもノードは同じ場所にあることをお忘れなく：
+# どちらのプロットでもノードは同じ場所にあることを確認:
 l <- layout_with_fr(net)
 plot(net.h, vertex.color="orange", layout=l, main="Tie: Hyperlink")
 plot(net.m, vertex.color="lightsteelblue2", layout=l, main="Tie: Mention")
