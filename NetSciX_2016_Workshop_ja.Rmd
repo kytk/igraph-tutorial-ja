@@ -1578,7 +1578,7 @@ clp <- cluster_label_prop(net)
 plot(clp, net)
 ```
 
-*グリーディ法によるモジュール分割の最適化によるコミュニティ検出*
+*グリーディ法に基づいたモジュール分割の最適化によるコミュニティ検出*
 
 ```{r, eval=T}
 cfg <- cluster_fast_greedy(as.undirected(net))
