@@ -31,10 +31,10 @@ y <- 4        # yに4を代入
 y + 5         # 式の値を求めますが、yは4のまま
 
 z <- x + 17*y # 代入
-z             # 式の値を求める
+z             # 式の値を求める
 
 rm(z)         # remove z: zというオブジェクトを消去
-z             # zを出力しようとするとエラーが出る！
+z             # zを出力しようとするとエラーが出る！
 ```
 
 ### 1.2 値の比較
@@ -44,7 +44,7 @@ z             # zを出力しようとするとエラーが出る！
 ```{r, eval=F}
 2==2          # 等しい
 2!=2          # 等しくない
-x <= y        # 以下："<"や">"、">="も使える
+x <= y        # 以下："<"や">"、">="も使える
 ```
 
 ### 1.3 特殊な定数  
@@ -118,8 +118,8 @@ length(v2)
 
 ```{r, eval=F}
 v1 + v2     # 要素ごとの足し算
-v1 + 1      # それぞれの要素に1を加える
-v1 * 2      # それぞれの要素に2をかける
+v1 + 1      # それぞれの要素に1を加える
+v1 * 2      # それぞれの要素に2をかける
 v1 + c(1,7) # (1,7) はv1と長さの異なるベクトルであるためうまくいかない
 ```
 
@@ -1581,6 +1581,7 @@ plot(clp, net)
 *グリーディ法に基づいたモジュール分割の最適化によるコミュニティ検出*
 
 ```{r, eval=T}
+net <- simplify(net, remove.multiple = T, remove.loops = T)
 cfg <- cluster_fast_greedy(as.undirected(net))
 plot(cfg, as.undirected(net))
 ```
@@ -1622,5 +1623,6 @@ assortativity(net, V(net)$audience.size, directed=F)
 ```{r, eval=T}
 assortativity_degree(net, directed=F)
 ```
-
+```{r, eval=F}
 save.image()
+```
