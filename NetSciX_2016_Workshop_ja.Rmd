@@ -1335,7 +1335,7 @@ plot(net, vertex.color=vcol, edge.color=ecol, edge.arrow.mode=0)
 
 ### 6.5 ノードの次数 (Node degrees)
 
-degree()の機能には、入次数をあらわすinと出次数をあらわすoutがあり、allもしくはtotalで全次数があらわせます。
+degree()には、入次数をあらわす*in*と出次数をあらわす*out*があり、*all*もしくは*total*で全次数があらわせます。
 
 ```{r, eval=T}
 deg <- degree(net, mode="all")
@@ -1346,7 +1346,7 @@ plot(net, vertex.size=deg*3)
 hist(deg, breaks=1:vcount(net)-1, main="Histogram of node degree")
 ```
 
-### 6.6 次数の配分 (Degree distribution)
+### 6.6 次数の分布 (Degree distribution)
 
 ```{r, eval=T}
 deg.dist <- degree_distribution(net, cumulative=T, mode="all")
@@ -1356,7 +1356,7 @@ xlab="Degree", ylab="Cumulative Frequency")
 
 ### 6.7 中心性と集権化 (Centrality & centralization)
 
-頂点レベルでの中心性機能とグラフレベルでの集権化の話です。前者はresで返される頂点の中心性で、後者はcentralizationやtheoretical_maxによって出力されるあるグラフにおける最大の集権化スコアです。中心性の機能はvidsパラメータを用いてセットした、ノードのサブセットでも使えます。この機能は、全ての中心性を計算すると資源や時間を浪費してしまいそうな大規模なグラフで有用です。
+ノードの中心性とグラフ全体における集権化についてです。前者は`res`で返さ、後者は`centralization`や`theoretical_max`によって出力されるあるグラフにおける最大の集権化スコアです。中心性の機能はvidsパラメータを用いてセットした、ノードのサブセットでも使えます。この機能は、全ての中心性を計算すると資源や時間を浪費してしまいそうな大規模なグラフで有用です。
 
 *次数 (Degree)*　（つながりの数）
 
