@@ -1260,7 +1260,7 @@ vertex.label.cex=.6, edge.color="gray70", edge.width=2)
 
 ## 6. ネットワークとノードの記述法
 
-### 6.1 密度 (density)
+### 6.1 密度 (Density)
 
 密度とはネットワークにおいて存在可能な全エッジに対する、実際のエッジの比率です。
 
@@ -1272,7 +1272,7 @@ edge_density(net, loops=F)
 ecount(net)/(vcount(net)*(vcount(net)-1)) #有向ネットワークの場合
 ```
 
-### 6.2 相互性 (reciprocity)
+### 6.2 相互性 (Reciprocity)
 
 有向ネットワークにおいて双方向性のつながりが占める割合です。
 
@@ -1282,7 +1282,7 @@ dyad_census(net) # 相互性、一方向性、つながりのないノードの�
 2*dyad_census(net)$mut/ecount(net) # 相互性を計算
 ```
 
-### 6.3 推移性 (transitivity)
+### 6.3 推移性 (Transitivity)
 
 - グローバル：つながった3つ組のうち、トライアングル(方向性は問わない)が占める割合です。
 - ローカル：各々の頂点を含む3つ組に対するトライアングルの割合です。
@@ -1294,7 +1294,7 @@ transitivity(net, type="local")
 triad_census(net) # 有向ネットワークの場合
 ```
 
-### 6.4 直径 (diameter)
+### 6.4 直径 (Diameter)
 
 ネットワーク径というのは、ネットワークにおける最長の測地的距離(2つのノードの最短パスの長さ)のことです。igraphにおいては、diameter()でその距離を返しますが、get_diameter()だと最初に見つかったパス沿いにあるノードを返します。
 エッジの重みはNAにセットしないかぎり、デフォルトでは有効になっていることをお忘れなく。
@@ -1333,7 +1333,7 @@ ecol[E(net, path=diam)] <- "orange"
 plot(net, vertex.color=vcol, edge.color=ecol, edge.arrow.mode=0)
 ```
 
-### 6.5 ノードの次数
+### 6.5 ノードの次数 (Node degrees)
 
 degree()の機能には、入次数をあらわすinと出次数をあらわすoutがあり、allもしくはtotalで全次数があらわせます。
 
@@ -1346,7 +1346,7 @@ plot(net, vertex.size=deg*3)
 hist(deg, breaks=1:vcount(net)-1, main="Histogram of node degree")
 ```
 
-### 6.6 次数の配分
+### 6.6 次数の配分 (Degree distribution)
 
 ```{r, eval=T}
 deg.dist <- degree_distribution(net, cumulative=T, mode="all")
@@ -1354,18 +1354,18 @@ plot( x=0:max(deg), y=1-deg.dist, pch=19, cex=1.2, col="orange",
 xlab="Degree", ylab="Cumulative Frequency")
 ```
 
-### 6.7 中心性と集権化
+### 6.7 中心性と集権化 (Centrality & centralization)
 
 頂点レベルでの中心性機能とグラフレベルでの集権化の話です。前者はresで返される頂点の中心性で、後者はcentralizationやtheoretical_maxによって出力されるあるグラフにおける最大の集権化スコアです。中心性の機能はvidsパラメータを用いてセットした、ノードのサブセットでも使えます。この機能は、全ての中心性を計算すると資源や時間を浪費してしまいそうな大規模なグラフで有用です。
 
-次数(つながりの数)
+*次数 (Degree)*　（つながりの数）
 
 ```{r, eval=F}
 degree(net, mode="in")
 centr_degree(net, mode="in", normalized=T)
 ```
 
-近接性(そのグラフにおける近接中心性)
+*近接性 (Closeness)*　（グラフにおける近接中心性）
 ネットワークにおけるノードの平均測地的距離の逆数です。
 
 ```{r, eval=F}
@@ -1373,16 +1373,16 @@ closeness(net, mode="all", weights=NA)
 centr_clo(net, mode="all", normalized=T)
 ```
 
-固有ベクトル(コネクションの中心性の総和に比例した中心性)
-そのグラフ行列の最初の固有ベクトルの値のこと。
+*固有ベクトル (Eigenvector)*　（コネクションの中心性の総和に比例した中心性）
+そのグラフ行列の最初の固有ベクトルの値のことです。
 
 ```{r, eval=F}
 eigen_centrality(net, directed=T, weights=NA)
 centr_eigen(net, directed=T, normalized=T)
 ```
 
-媒介性((他を仲介する位置にあノードを基本とした中心性)
-そのノードもしくはエッジを通る測地線の数のこと。
+*媒介性 (Betweenness)*　（他を仲介する位置にあノードを基本とした中心性）
+そのノードもしくはエッジを通る測地線の数のことです。
 
 ```{r, eval=F}
 betweenness(net, directed=T, weights=NA)
