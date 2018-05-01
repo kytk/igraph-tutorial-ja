@@ -1,10 +1,11 @@
 ---
 title: "Rとigraphを使ったネットワーク解析と可視化"
-author: "Katherine Ognyanova 著; 田村 昌士, 根本 清貴 訳"
+author: "Katherine Ognyanova 著; 田村 昌士,根本 清貴 訳"
 date: "10 January 2018"
 output:
   html_document: default
   pdf_document: default
+  word_document: default
 ---
 
 このワークショップで用いるデータは、[ここ](http://www.kateto.net/wordpress/wp-content/uploads/2016/01/netscix2016.zip)からダウンロードするか、http://kateto.net/netscix2016 から入手してください。
@@ -1230,9 +1231,9 @@ heatmap(netm[,17:1], Rowv = NA, Colv = NA, col = palf(100),
 scale="none", margins=c(10,10) )
 ```
 
-## 5.6 igraphで2モードネットワークをプロットする
+## 5.6 igraphで二部グラフをプロットする
 
-1モードネットワークと同じように、ネットワークをプロットする際に、視覚的な分布を含んだネットワークオブジェクトの変更を初期設定として行うことができます。ここでは、報道発信源は四角で、視聴者は丸でというように、ノードの形を変える事もできるということもお忘れなく。
+一部グラフと同じように、ネットワークをプロットする際に、視覚的な分布を含んだネットワークオブジェクトの変更を初期設定として行うことができます。ここでは、報道機関は四角、視聴者は丸というように、ノードの形を変える事もできるということもお忘れなく。
 
 ```{r, eval=T}
 V(net2)$color <- c("steel blue", "orange")[V(net2)$type+1]
@@ -1244,7 +1245,7 @@ V(net2)$label.font=2
 plot(net2, vertex.label.color="white", vertex.size=(2-V(net2)$type)*8)
 ```
 
-Igraphではバイパータイトネットワーク用に特別なレイアウトも用意されています (必ずしもいつも上手い具合にいくとは限りませんので、ご自身で2モードレイアウトを作った方がよいかもしれません)。
+igraphでは二部グラフ用に特別なレイアウトも用意されています (必ずしも上手い具合にいくとは限りませんので、ご自身で二部グラフ用のレイアウトを作ってもよいかもしれません)。
 
 ```{r, eval=T}
 plot(net2, vertex.label=NA, vertex.size=7, layout=layout_as_bipartite)
@@ -1259,9 +1260,9 @@ vertex.label.cex=.6, edge.color="gray70", edge.width=2)
 
 ## 6. ネットワークとノードの記述法
 
-### 6.1 濃度
+### 6.1 密度 (density)
 
-濃度とはネットワークにおいて張ることのできる全てのエッジに対する、実際のエッジの比率。
+密度とはネットワークにおいて存在可能な全エッジに対する、実際のエッジの比率です。
 
 ```{r, eval=T}
 edge_density(net, loops=F)
@@ -1271,9 +1272,9 @@ edge_density(net, loops=F)
 ecount(net)/(vcount(net)*(vcount(net)-1)) #有向ネットワークの場合
 ```
 
-### 6.2 相互性
+### 6.2 相互性 (reciprocity)
 
-有向ネットワークにおいて双方向性のつながりが占める割合。
+有向ネットワークにおいて双方向性のつながりが占める割合です。
 
 ```{r, eval=F}
 reciprocity(net)
@@ -1281,10 +1282,10 @@ dyad_census(net) # 相互性、一方向性、つながりのないノードの�
 2*dyad_census(net)$mut/ecount(net) # 相互性を計算
 ```
 
-### 6.3 推移性
+### 6.3 推移性 (transitivity)
 
--グローバル：つながった3つ組のうち、トライアングル(方向性は問わない)が占める割合
--ローカル：各々の頂点を含む3つ組に対するトライアングルの割合
+- グローバル：つながった3つ組のうち、トライアングル(方向性は問わない)が占める割合です。
+- ローカル：各々の頂点を含む3つ組に対するトライアングルの割合です。
 
 ```{r, eval=T}
 transitivity(net, type="global") # netは無向性ネットワークとして扱われます
@@ -1293,7 +1294,7 @@ transitivity(net, type="local")
 triad_census(net) # 有向ネットワークの場合
 ```
 
-### 6.4 直径
+### 6.4 直径 (diameter)
 
 ネットワーク径というのは、ネットワークにおける最長の測地的距離(2つのノードの最短パスの長さ)のことです。igraphにおいては、diameter()でその距離を返しますが、get_diameter()だと最初に見つかったパス沿いにあるノードを返します。
 エッジの重みはNAにセットしないかぎり、デフォルトでは有効になっていることをお忘れなく。
