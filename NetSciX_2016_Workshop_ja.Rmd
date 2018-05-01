@@ -1533,7 +1533,7 @@ plot(as.undirected(net.sym), vertex.label=V(net.sym)$name, vertex.color=vcol)
 
 グループ間をまたぐコネクションがほとんどない、密につながったノードから成るグループを検出するべく、多くのアルゴリズムが開発されています。
 
-*エッジの媒介性に基づいたコミュニティ検出(Newman-Girvanアルゴリズム)*
+*エッジの媒介性に基づいたコミュニティ検出 (Newman-Girvanアルゴリズム)*
 
 媒介性の高いエッジから順に除去され(ステップごとに再計算されます)、最善の分割が選択されます。
 
@@ -1609,9 +1609,9 @@ plot(net, vertex.size=kc*6, vertex.label=kc, vertex.color=colrs[kc])
 
 同質性：ノードがいくつかの似通った変数で他のノードとつながっている傾向のこと。
 
--assortativity_nominal()はカテゴリー変数(ラベル)
--assortativity()は序数以上の変数の際に用いる。
--assortativity_degree()はノードの次数における同類度を調べる。
+- assortativity_nominal()はカテゴリー変数(ラベル)
+- assortativity()は序数以上の変数の際に用いる。
+- assortativity_degree()はノードの次数における同類度を調べる。
 
 ```{r, eval=T}
 assortativity_nominal(net, V(net)$media.type, directed=F)
