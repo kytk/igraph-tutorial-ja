@@ -560,6 +560,11 @@ g4[]
 g4[1,]
 ```
 
+```{r, eval=F}
+g4[3,3] <- 10
+g4[5,7] <- 10
+```
+
 ネットワークや頂点、辺に属性を付加します。
 
 ```{r, eval=T}
@@ -610,7 +615,7 @@ graph_attr(g4)
 
 ```{r, eval=T}
 plot(g4, edge.arrow.size=.5, vertex.label.color="black", vertex.label.dist=1.5,
-vertex.color=c( "pink", "skyblue")[1+(V(g4)$gender=="male")] )
+     vertex.color=c("pink", "skyblue")[1+(V(g4)$gender=="male")] )
 ```
 
 グラフ `g4` ではJimからJackに向かうエッジが2つあり、JohnからJohn自身に戻るループがあります。ループや同一のノードを結ぶ複数のエッジを消去することでグラフをシンプルにすることができます。`edge.attr.comb` を使えば、どのエッジの属性をまとめるかを示すことができます。オプションとして、`sum`, `mean`, `prod` (product), `min`, `max`, `first/last` (最初と最後のエッジの属性を選択)などがあります。“ignore”というオプションを使うと、属性が無視され、除去されます。
