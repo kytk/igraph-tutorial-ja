@@ -1289,19 +1289,37 @@ dyad_census(net) # 相互性、一方向性、つながりのないノードの�
 
 ### 6.3 推移性 (Transitivity)
 
-- グローバル：つながった3つ組のうち、トライアングル(方向性は問わない)が占める割合です。
-- ローカル：各々の頂点を含む3つ組に対するトライアングルの割合です。
+- グローバル：ネットワーク全体においてノードにつながっている2つのノードで三角形が構成される割合です。
+- ローカル：各ノードにおいて、そのノードにつながっている2つのノードで三角形が構成される割合です。
 
 ```{r, eval=T}
-transitivity(net, type="global") # netは無向性ネットワークとして扱われます
-transitivity(as.undirected(net, mode="collapse")) # 上に同じ
+transitivity(net, type="global") # netは無向性ネットワークとして扱われる
+transitivity(as.undirected(net, mode="collapse")) # 上と同じ
 transitivity(net, type="local")
 triad_census(net) # 有向ネットワークの場合
 ```
 
+*Triad types (per Davis & Leinhardt):*
+- 003 A, B, C, empty triad.
+- 012 A->B, C
+- 102 A<->B, C
+- 021D A<-B->C
+- 021U A->B<-C
+- 021C A->B->C
+- 111D A<->B<-C
+- 111U A<->B->C
+- 030T A->B<-C, A->C
+- 030C A<-B<-C, A->C.
+- 201 A<->B<->C.
+- 120D A<-B->C, A<->C.
+- 120U A->B<-C, A<->C.
+- 120C A->B->C, A<->C.
+- 210 A->B<->C, A<->C.
+- 300 A<->B<->C, A<->C, completely connected.
+
 ### 6.4 直径 (Diameter)
 
-ネットワーク径というのは、ネットワークにおける最長の測地的距離(2つのノードの最短パスの長さ)のことです。igraphにおいては、diameter()でその距離を返しますが、get_diameter()だと最初に見つかったパス沿いにあるノードを返します。
+ネットワーク径というのは、ネットワークにおける測地的距離(2つのノードの最短パスの長さ)の中で最も長い距離です。igraphにおいては、diameter()でその距離を返しますが、get_diameter()だと最初に見つかったパス上にあるノードを返します。
 エッジの重みはNAにセットしないかぎり、デフォルトでは有効になっていることをお忘れなく。
 
 ```{r, eval=T}
@@ -1327,7 +1345,7 @@ class(diam)
 as.vector(diam)
 ```
 
-直径沿いのノードに色を付けます：
+直径上にあるノードに色を付けます：
 
 ```{r, eval=T}
 vcol <- rep("gray40", vcount(net))
@@ -1361,7 +1379,7 @@ xlab="Degree", ylab="Cumulative Frequency")
 
 ### 6.7 中心性と集権化 (Centrality & centralization)
 
-ノードの中心性とグラフ全体における集権化についてです。前者は`res`で返され、後者は`centralization`や`theoretical_max`によって出力されます。中心性は`vids`パラメータを用いて作成したノードのサブセットでも使えます。全ての中心性を計算すると、リソースや時間を浪費してしまいそうな大規模なグラフで有用です。
+各ノードの中心性とグラフ全体における集権化についてです。前者は`res`で返され、後者は`centralization`や`theoretical_max`によって出力されます。中心性は`vids`パラメータを用いて作成したノードのサブセットでも使えます。全ての中心性を計算すると、リソースや時間を浪費してしまいそうな大規模なグラフで有用です。
 
 *次数 (Degree)*（つながりの数）
 
@@ -1434,7 +1452,7 @@ distances(net, weights=NA) # 重みを無視した場合
 ```{r, eval=T}
 dist.from.NYT <- distances(net, v=V(net)[media=="NY Times"], to=V(net), weights=NA)
 
-# 距離をプロットするために色を設定します：
+# 距離をプロットするために色を設定：
 oranges <- colorRampPalette(c("dark red", "gold"))
 col <- oranges(max(dist.from.NYT)+1)
 col <- col[dist.from.NYT+1]
@@ -1442,21 +1460,21 @@ plot(net, vertex.color=col, vertex.label=dist.from.NYT, edge.arrow.size=.6,
 vertex.label.color="white")
 ```
 
-特定のノード間の最短経路を求めることもできます。ここではMSNBCとNew York Postについて言及されています：
+特定のノード間の最短経路を求めることもできます。MSNBCとNew York Postについて見てみましょう：
 
 ```{r, eval=T}
 news.path <- shortest_paths(net,
                             from = V(net)[media=="MSNBC"],
                             to = V(net)[media=="New York Post"],
-                            output = "both") # 経路上のノードとエッジ両方を出力します
+                            output = "both") # 経路上のノードとエッジ両方を出力
 
-# パスをプロットするためのエッジの色変数を生成します：
+# パスをプロットするためのエッジの色変数を生成：
 ecol <- rep("gray80", ecount(net))
 ecol[unlist(news.path$epath)] <- "orange"
-# パスをプロットするためのエッジ幅の変数を生成します：
+# パスをプロットするためのエッジ幅の変数を生成：
 ew <- rep(2, ecount(net))
 ew[unlist(news.path$epath)] <- 4
-# パスをプロットするためのノード色変数を生成します：
+# パスをプロットするためのノード色変数を生成：
 vcol <- rep("gray40", vcount(net))
 vcol[unlist(news.path$vpath)] <- "gold"
 
@@ -1464,12 +1482,12 @@ plot(net, vertex.color=vcol, edge.color=ecol,
 edge.width=ew, edge.arrow.mode=0)
 ```
 
-ある頂点、ここではWSJを例にとって、そこから出て行ったり入ってきたりするエッジを特定しましょう。単一のノード場合はincident()を、複数のノードの場合はincident_edges()を用います。
+WSJを例にとって、ある頂点から出入りするエッジを特定してみましょう。単一のノード場合はincident()を、複数のノードの場合はincident_edges()を用います。
 
 ```{r, eval=T}
 inc.edges <- incident(net, V(net)[media=="Wall Street Journal"], mode="all")
 
-# 選んだエッジをプロットするべく色を設定します。
+# 選んだエッジの色を設定
 ecol <- rep("gray80", ecount(net))
 ecol[inc.edges] <- "orange"
 vcol <- rep("grey40", vcount(net))
@@ -1477,19 +1495,23 @@ vcol[V(net)$media=="Wall Street Journal"] <- "gold"
 plot(net, vertex.color=vcol, edge.color=ecol)
 ```
 
-ある頂点、ここではWSJと隣接する頂点を特定することも可能です。ネイバー機能では、フォーカスされたノードから1つ離れた場所にある全てのノードを求められます。複数のノードに対するネイバーを求める場合は、neighbors()の代わりにadjacent_vertices()を用います。2つ以上離れたネイバーを求めたい時は、ego()機能を使って焦点のノードからどれだけ離れているかパラメータを設定します。 
+ある頂点、ここではWSJと隣接する頂点を特定することも可能です。`neighbors`関数を使えば、特定のノードから1つ離れた場所にある全てのノードを求められます。複数のノードに対する隣接ノードを求める場合は、`neighbors()`の代わりに`adjacent_vertices()`を用います。2つ以上離れたノードを求めたい時は、`ego()`機能を使って特定のノードからどれだけ離れているか、orderのパラメータを設定します。 
 
 ```{r, eval=T}
 neigh.nodes <- neighbors(net, V(net)[media=="Wall Street Journal"], mode="out")
-# ネイバーをプロットするべく色を設定します：
+# 隣接ノードの色を設定：
 vcol[neigh.nodes] <- "#ff9d00"
 plot(net, vertex.color=vcol)
 ```
 
 エッジの配列を羅列するための特定の代数：%–%, %->%, %<-%
-E(network)[X %–% Y] ＸとＹの間にあるエッジを選択し、方向性は無視します
-E(network)[X %->% Y] ＸからＹに向かうエッジを選択します
-E(network)[X %<-% Y] ＹからＸに向かうエッジを選択します
+
+E(network)[X %–% Y] XとYの間にあるエッジを選択し、方向性は無視します
+
+E(network)[X %->% Y] XからYに向かうエッジを選択します
+
+E(network)[X %<-% Y] YからXに向かうエッジを選択します
+
 
 たとえば、新聞からオンライン情報に向かうエッジを選択してみましょう：
 
@@ -1497,7 +1519,7 @@ E(network)[X %<-% Y] ＹからＸに向かうエッジを選択します
 E(net)[ V(net)[type.label=="Newspaper"] %->% V(net)[type.label=="Online"] ]
 ```
 
-共引用（２つのノードでどれだけのノミネーションをシェアしているか）:
+共引用（2つのノードが他のノードをどれだけ共有しているか）:
 
 ```{r, eval=T}
 cocitation(net)
@@ -1507,18 +1529,18 @@ cocitation(net)
 
 最初に、このネットワークを無向性にしましょう。この変換にはいくつかの方法があります：
 
--つながりのあるノード間に無向性リンクを作る (mode="collapse" )。
--ネットワーク内の有向性リンクに対して無向性リンクを作る。この場合、多重グラフが出来上がることになりそうですが (mode="each" )。
--グラフ内の対称性リンクに対して無向性リンクを作る (mode="mutual" )。
+- つながりのあるノード間に無向性リンクを作る (mode="collapse" )。
+- ネットワーク内の有向性リンクに対して無向性リンクを作る。この場合、多重グラフが出来る可能性があります (mode="each" )。
+- グラフ内の対称性リンクに対して無向性リンクを作る (mode="mutual" )。
 
-AからBとBからAのつながりがあって、それを単一の無向性リンクにまとめてしまう場合、そのエッジ属性を用いて何をすべきかをはっきりさせる必要があります。前にsimplify()を用いて行ったように、‘edge.attr.comb’パラメータを用います。 この時、リンクの重みは合計され、その他のエッジ属性は無視され省かれます。
+AからBとBからAのつながりがあって、それを単一の無向性リンクにまとめてしまう場合、そのエッジ属性を用いて何をすべきかをはっきりさせる必要があります。前に`simplify()`を用いて行ったように、‘edge.attr.comb’パラメータを用います。 この時、リンクの重みは合計され、その他のエッジ属性は無視され省かれます。
 
 ```{r, eval=F}
 net.sym <- as.undirected(net, mode= "collapse",
                          edge.attr.comb=list(weight="sum", "ignore"))
 ```
 
-### 8.1 小集団(Cliques)
+### 8.1 小集団 (Cliques)
 
 小集団（無向グラフの完全なサブグラフ）を求めましょう。
 
@@ -1536,11 +1558,11 @@ plot(as.undirected(net.sym), vertex.label=V(net.sym)$name, vertex.color=vcol)
 
 ### 8.2 コミュニティ検出
 
-グループ間をまたぐコネクションがほとんどない、密につながったノードから成るグループを検出するべく、多くのアルゴリズムが開発されています。
+ネットワークにおけるグループを検出するため、多くのアルゴリズムが開発されています。グループ内ではノードが密につながっており、グループ間ではほとんどつながりがありません。
 
 *エッジの媒介性に基づいたコミュニティ検出（Newman-Girvanアルゴリズム）*
 
-媒介性の高いエッジから順に除去され（ステップごとに再計算されます）、最善の分割が選択されます。
+媒介性の高いエッジから順に除去され（ステップごとに再計算されます）、最適なクラスタリングが選択されます。
 
 ```{r, eval=T}
 ceb <- cluster_edge_betweenness(net)
@@ -1570,14 +1592,14 @@ modularity(ceb) # グラフの分割のモジュラリティ
 ```
 
 ```{r, eval=F}
-crossing(ceb, net) # ブーリアンベクトル：TRUEだとコミュニティをまたぐエッジ
+crossing(ceb, net) # ブーリアンベクトル：TRUEの場合、コミュニティをまたぐエッジが存在
 ```
 
-分割に対してモジュラリティが高いということは、コミュニティ内のつながりが密であり、コミュニティ間のつながりが疎であることを反映している。
+分割に対してモジュラリティが高いということは、コミュニティ内のつながりが密であり、コミュニティ間のつながりが疎であることを反映しています。
 
 *ラベル伝搬に基づいたコミュニティ検出*
 
-ノードにラベルを割り当てる際、各頂点のラベルをいくつかの近接する頂点の中でもっとも頻出するラベルに置き換える、というより無作為化します。こうしたステップが、各頂点がその近接点においてもっともコモンなラベルになるまでくり返されます。
+ノードにラベルを割りふり、無作為化し、各ノードのラベルを近接するノードの中でもっとも頻出するラベルに置き換えます。これらのステップが、各ノードがその近接点において頻出するラベルになるまでくり返されます。
 
 ```{r, eval=T}
 clp <- cluster_label_prop(net)
@@ -1592,7 +1614,7 @@ cfg <- cluster_fast_greedy(as.undirected(net))
 plot(cfg, as.undirected(net))
 ```
 
-ビルトインのプロットに頼らず、コミュニティをプロットすることもできます：
+ビルトインのプロット機能に頼らず、コミュニティをプロットすることもできます：
 
 ```{r, eval=T}
 V(net)$community <- cfg$membership
@@ -1601,9 +1623,9 @@ plot(net, vertex.color=colrs[V(net)$community])
 ```
 
 
-### 8.3 k-コア分解
+### 8.3 Kコア分解
 
-k-コアとは、各ノードが少なくともkの次数を持つように部分グラフを最大化したものです。これは(k+1)-コアが、k-コアの部分グラフになるという意味にもなります。 ここでの結果は、ネットワークにおける各頂点のコア度を示しています。あるノードがD-コアに属して(D+1)-コアに属さない場合、コア度はDとなります。 
+Kコアとは、各ノードが少なくともkの次数を持つように部分グラフを最大化したものです。これは(k+1)-コアが、k-コアの部分グラフになるという意味にもなります。 ここでの結果は、ネットワークにおける各頂点のコア度を示しています。あるノードがD-コアに属して(D+1)-コアに属さない場合、コア度はDとなります。 
 
 ```{r, eval=T}
 kc <- coreness(net, mode="all")
@@ -1612,10 +1634,10 @@ plot(net, vertex.size=kc*6, vertex.label=kc, vertex.color=colrs[kc])
 
 ## 9. 同類度と同質性
 
-同質性：ノードがいくつかの似通った変数で他のノードとつながっている傾向のこと。
+同質性：変数において類似しているという点で、他のノードとつながっているノードの傾向のことです。
 
-- assortativity_nominal()はカテゴリー変数（ラベル）
-- assortativity()は序数以上の変数の際に用いる。
+- assortativity_nominal()はカテゴリー変数（ラベル）に用いる。
+- assortativity()は順序変数や連続変数の際に用いる。
 - assortativity_degree()はノードの次数における同類度を調べる。
 
 ```{r, eval=T}
