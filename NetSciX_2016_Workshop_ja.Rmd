@@ -164,7 +164,7 @@ v1[6:10] <- 6:10
 
 ベクトルに長さをそのまま割り当てることもできます。
 ```{r, eval=F}
-length(v1) <- 15 # the last 5 elements are added as missing data: NA
+length(v1) <- 15 # 最後5つの要素は欠損値 (NA) として追加される
 ```
 
 ### 1.5 要因ベクトル
